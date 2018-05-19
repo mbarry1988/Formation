@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_session_form">
+            <field name="name">nom.du.formulaire</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="formulaire de la session">
+                        <header>
+                            <field name="statut" widget="statusbar"/>
+                            <button name='ouvert' string="Statut Ouvert" type="object"/>
+                            <button name='fermer' string="Statut Fermer" type="object"/>
+                        </header>
+
+                        <group>
+                        <field name="name"/>
+                        <field name="date_start"/>
+                            <field name="date_stop"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                        <field name="instructeur_id"/>
+                        <field name="cours_id" domain="[('active_2','=',True)]"/>
+                        <field name="participant_ids"/>
+                        <field name="taken_seats" widget="progressbar"/>
+                        </group>
+                    </form>
+                </field>
+        </record>
+        <record model="ir.ui.view" id="view_session_tree">
+            <field name="name">nom.de.la.liste</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="formulaire de la session" decoration-info="duration&lt;5" decoration-danger="duration&gt;15">
+                        <field name="name"/>
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                        <field name="instructeur_id"/>
+                        <field name="cours_id"/>
+                        <field name="taken_seats" widget="progressbar"/>
+                    </tree>
+                </field>
+        </record>
+         <record model="ir.ui.view" id="view_session_search">
+            <field name="name">nom.du.filtre</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">search</field>
+                <field name="arch" type="xml">
+                    <search string="formulaire de la session">
+                        <field name="name"/>
+                        <field name="date_start"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                        <field name="instructeur_id"/>
+                        <field name="cours_id"/>
+                    </search>
+                </field>
+        </record>
+        <record model="ir.ui.view" id="view_session_calandrier">
+            <field name="name">nom.du.calendrier</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                    <calendar string="formulaire de calendrier" date_start="date_start" date_stop="date_stop" color="instructeur_id">
+                        <field name="name"/>
+                    </calendar>
+                </field>
+        </record>
+        <record model="ir.ui.view" id="view_session_graph">
+            <field name="name">nom.du.graphe</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                    <graph string="Graphique">
+                        <field name="name"/>
+                         <field name="nbre_participant" type="measure"/>
+                    </graph>
+                </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_session">
+            <field name="name">action session</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree,search,calendar,graph</field>
+            <field name="view_id" ref="view_session_tree"/>
+        </record>
+        <!--<menuitem id="menu_openacademy" name="openacademy"/>-->
+        <menuitem parent="menu_openacademy" id="menu_session" name="session" action="action_session"/>
+    </data>
+</odoo>

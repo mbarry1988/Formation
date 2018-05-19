@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_cours_form">
+            <field name="name">nom.du.formulaire</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="formulaire du cours">
+                        <header>
+                            <field name="etat" widget="statusbar"/>
+                            <button name='etat_encours' string="Statut en cours" type="object"/>
+                            <button name='etat_terminer' string="Statut terminer" type="object"/>
+                            <button name='etat_brouillon' string="Statut Valider Brouillon" type="object"/>
+                        </header>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="active_cours" type="object" class="oe_stat_button" icon="fa-check">
+                                <field name="active_2" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+                            </button>
+                        </div>
+                        <group>
+                        <field name="name" readonly="1"/>
+                        <field name="description"/>
+                        <field name="user_id"/>
+                        <field name="active_2"/>
+                        </group>
+                            <notebook>
+                            <page string="Informations">
+                                Testttt
+                                <group>
+                                <field name="remarque"/>
+                                </group>
+                            </page>
+                            <page string="Sessions">
+                                <field name="session_ids">
+                                    <tree string="Registered sessions">
+                                        <field name="session_id"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            </notebook>
+                    </form>
+                </field>
+        </record>
+        <record model="ir.ui.view" id="view_cours_tree">
+            <field name="name">nom.de.la.liste</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="formulaire du cours" colors="blue:etat=='brouillon',red:etat=='encours',green:etat=='termine'">
+                        <field name="name" readonly="1"/>
+                        <field name="description"/>
+                        <field name="user_id"/>
+                        <field name="etat"/>
+                        <field name="active_2"/>
+                    </tree>
+                </field>
+        </record>
+         <record model="ir.ui.view" id="view_cours_search">
+            <field name="name">nom.du.filtre</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">search</field>
+                <field name="arch" type="xml">
+                    <search string="formulaire du cours">
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="user_id"/>
+                        <filter name="mes_cours" string="Mes Cours" domain="[('user_id','=',uid)]"/>
+                        <group string="Group By">
+                            <filter name="Responsable" string="Responsable" context="{'group_by':'user_id'}"/>
+                        </group>
+                    </search>
+                </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_cours">
+            <field name="name">action cours</field>
+            <field name="res_model">openacademy.course</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree,search</field>
+            <field name="view_id" ref="view_cours_tree"/>
+        </record>
+        <menuitem id="menu_openacademy" name="openacademy"/>
+        <menuitem parent="menu_openacademy" id="menu_cours" name="cours" action="action_cours"/>
+    </data>
+</odoo>
